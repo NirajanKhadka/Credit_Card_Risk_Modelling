@@ -298,6 +298,7 @@ http://127.0.0.1/docs#/default/predict_predict_post
 <p align="center">
   <img src="images/FastAPI_Client_Result.png">
 </p>
+
 ### Automation on the deployed server
 
 *Postman* command be used for this. Postman is a powerful tool for interacting with APIs, and it can also be used to automate testing and requests to your server.
