@@ -1,5 +1,5 @@
 # Use the base image with Python 3.7
-FROM frolvlad/alpine-miniconda3:python3.7
+FROM python:3.7-slim
 
 # Set the working directory
 WORKDIR /app
@@ -17,4 +17,4 @@ EXPOSE 80
 COPY . .
 
 # Run the FastAPI application
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "80"]
+CMD ["uvicorn", "app:app", "--host", "0.0.0.0", "--port", "80"]
