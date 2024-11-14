@@ -1,6 +1,6 @@
 import joblib
 import pandas as pd
-from fastapi import FastAPI, UploadFile, File
+from fastapi import FastAPI, UploadFile, File,HTTPException
 from pydantic import BaseModel
 from fastapi.templating import Jinja2Templates
 from fastapi.responses import HTMLResponse
@@ -78,22 +78,25 @@ async def upload_file(file: UploadFile = File(...)):
 # REST API for prediction (Returns JSON)
 @app.post("/predict")
 def predict(inference_request: Credit_Model):
-    input_dictionary = {
-        "person_age": inference_request.person_age,
-        "person_income": inference_request.person_income,
-        "person_home_ownership": inference_request.person_home_ownership,
-        "person_emp_length": inference_request.person_emp_length,
-        "loan_intent": inference_request.loan_intent,
-        "loan_grade": inference_request.loan_grade,
-        "loan_amnt": inference_request.loan_amnt,
-        "loan_int_rate": inference_request.loan_int_rate,
-        "loan_percent_income": inference_request.loan_percent_income,
-        "cb_person_default_on_file": inference_request.cb_person_default_on_file,
-        "cb_person_cred_hist_length": inference_request.cb_person_cred_hist_length
-    }
+    try:
+        input_dictionary = {
+            "person_age": inference_request.person_age,
+            "person_income": inference_request.person_income,
+            "person_home_ownership": inference_request.person_home_ownership,
+            "person_emp_length": inference_request.person_emp_length,
+            "loan_intent": inference_request.loan_intent,
+            "loan_grade": inference_request.loan_grade,
+            "loan_amnt": inference_request.loan_amnt,
+            "loan_int_rate": inference_request.loan_int_rate,
+            "loan_percent_income": inference_request.loan_percent_income,
+            "cb_person_default_on_file": inference_request.cb_person_default_on_file,
+            "cb_person_cred_hist_length": inference_request.cb_person_cred_hist_length
+        }
 
-    inference_request_Data = pd.DataFrame(input_dictionary, index=[0])
-    prediction = RF_pipeline.predict(inference_request_Data)
-    result = "Not Defaulted" if prediction == 0 else "Defaulted"
+        inference_request_Data = pd.DataFrame(input_dictionary, index=[0])
+        prediction = RF_pipeline.predict(inference_request_Data)
+        result = "Not Defaulted" if prediction == 0 else "Defaulted"
 
-    return {"Prediction": result}
+        return {"Prediction": result}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
