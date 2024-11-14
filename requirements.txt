@@ -3,3 +3,4 @@ pandas
 scikit-learn==1.0.2
 xgboost==1.6.2
 jupyter notebook
+python==3.7
