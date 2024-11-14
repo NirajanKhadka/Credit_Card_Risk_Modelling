@@ -302,7 +302,7 @@ http://127.0.0.1/docs#/default/predict_predict_post
 
 *Postman* command be used for this. Postman is a powerful tool for interacting with APIs, and it can also be used to automate testing and requests to your server.
 
-## Create a Request in Postman:
+### 1. Create a Request in Postman:
 
 Open Postman and click on "New" to create a new request.
 Set the HTTP method to POST and enter the URL, for example, http://localhost:80/predict.
@@ -311,20 +311,20 @@ In the "Body" section, select raw and set the type to JSON. Paste the JSON input
 
 Postman allows you to create Collections, which are groups of requests.
 You can run all the requests in the collection automatically using the Collection Runner. This can be done in a sequence, and you can provide data from a CSV or JSON file to test with multiple sets of inputs.
-## Using Newman for Command Line:
+### 2. Using Newman for Command Line:
 
 Newman is a command-line tool that allows you to run Postman collections outside the Postman interface, enabling automation in CI/CD pipelines.
 
 After exporting a Postman collection, you can run it using the newman run command.
 
-## Automating Requests with Environment Variables:
+### 3. Automating Requests with Environment Variables:
 
 You can set up environment variables in Postman to automatically change values like URLs or authentication tokens between different environments (e.g., local, development, production).
 
 ### Example: Running the Request Automatically
-# 1. Add the URL http://localhost:80/predict and JSON data to a Postman request.
-# 2. Save the request in a collection.
-# 3.Use the Collection Runner to run the requests, either with predefined data or dynamically using external files.
+1. Add the URL http://localhost:80/predict and JSON data to a Postman request.
+2. Save the request in a collection.
+3. Use the Collection Runner to run the requests, either with predefined data or dynamically using external files.
 
 <p align="center">
   <img src="images/Postman.png">
