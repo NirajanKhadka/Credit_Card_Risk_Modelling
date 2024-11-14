@@ -1,0 +1,89 @@
+/* General body styling */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f9;
+    margin: 0;
+    padding: 0;
+    color: #333;
+}
+
+/* Centered container for content */
+.container {
+    max-width: 800px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Header Styling */
+h1 {
+    text-align: center;
+    color: #4CAF50;
+}
+
+/* Upload Button Styling */
+.upload-container {
+    margin: 20px 0;
+    text-align: center;
+}
+
+.upload-btn {
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.upload-btn:hover {
+    background-color: #45a049;
+}
+
+/* Result Section */
+.result {
+    margin-top: 30px;
+    padding: 10px;
+    text-align: center;
+    background-color: #f1f1f1;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 18px;
+}
+
+/* Error Message */
+.error {
+    color: #ff0000;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 20px;
+}
+
+/* Form styling */
+form {
+    margin-bottom: 20px;
+}
+
+/* Add some padding for each input */
+input[type="file"] {
+    display: inline-block;
+    padding: 8px;
+    margin-top: 10px;
+}
+
+/* Responsiveness */
+@media (max-width: 600px) {
+    .container {
+        padding: 15px;
+        margin: 10px;
+    }
+
+    .upload-btn {
+        width: 100%;
+        padding: 15px;
+    }
+}
