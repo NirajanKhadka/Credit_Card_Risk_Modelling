@@ -1,0 +1,25 @@
+service: loan-prediction-api
+
+provider:
+  name: aws
+  runtime: python3.8
+  region: us-east-1
+
+functions:
+  predict:
+    handler: lambda_function.lambda_handler
+    events:
+      - http:
+          path: predict
+          method: post
+          cors: true
+    environment:
+      MODEL_S3_BUCKET: loan-prediction-model-bucket
+      MODEL_S3_KEY: RandomForest_Best.sav  # Key in S3 bucket
+
+resources:
+  Resources:
+    ModelBucket:
+      Type: AWS::S3::Bucket
+      Properties:
+        BucketName: loan-prediction-model-bucket
