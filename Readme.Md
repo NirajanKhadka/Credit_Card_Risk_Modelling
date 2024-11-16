@@ -215,7 +215,7 @@ Now in the base directory, a file is created ```Dockerfile``. The ```Dockerfile`
 
 ```Dockerfile
 # Use the base image with Python 3.7
-FROM python:3.7-slim
+FROM python:3.8-slim
 
 # Set the working directory
 WORKDIR /app
@@ -238,7 +238,7 @@ CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "80"]
 ```
 ### Explanation
 
-1. FROM python:3.7-slim: Uses a slim version of Python 3.7 as the base image to minimize the size of the container.
+1. FROM python:3.8-slim: Uses a slim version of Python 3.8 as the base image to minimize the size of the container.
 2. WORKDIR /app: Sets the working directory to /app inside the container.
 3. COPY requirements.txt .: Copies the requirements.txt file from your project to the working directory in the container.
 4. RUN pip install -r requirements.txt: Installs all dependencies listed in the requirements.txt file.
