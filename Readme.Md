@@ -16,6 +16,7 @@ Whether you're here to see a practical ML application or to interact with a REST
 4. [FastAPI Loan Default Prediction API](#fastapi-loan-default-prediction-api)
 5. [FastAPI Loan Default Prediction WebUI](#fastapi-loan-default-prediction-webui-using-api)
 6. [Dockerizing the API Server](#dockerizing-the-api-server)
+7. [AWS Lambda Deployment][#deploying-the-app-awslambda]
 
 ### Project Structure
 ```plaintext
@@ -330,3 +331,94 @@ You can set up environment variables in Postman to automatically change values l
 <p align="center">
   <img src="images/Postman.png">
 </p>
+
+
+### AWS Lambda Deployment
+
+Follow these steps to deploy your FastAPI-based loan prediction API to AWS Lambda using the Serverless Framework, S3 for model storage, and Lambda for prediction.
+
+### Prerequisites
+
+Before starting, ensure you have the following installed and configured:
+
+1. **AWS Account**: Sign up for an AWS account if you don’t already have one.
+2. **AWS CLI**: Install and configure the [AWS CLI](https://aws.amazon.com/cli/).
+3. **Serverless Framework**: Install the [Serverless Framework](https://www.serverless.com/framework/docs/getting-started).
+4. **Python 3.x**: Ensure Python 3.x is installed on your local machine.
+5. **S3 Bucket**: Ensure you have an S3 bucket ready to store the model file. You’ll need the name of the bucket and the path to the model file.
+
+### Step 1: Upload the Model Weights to S3
+
+**Upload the Model File**
+
+   First, you need to upload the trained model (e.g., `RandomForest_Best.sav`) to an S3 bucket. You can do this through the AWS Console or use the AWS CLI:
+
+   ```bash
+   aws s3 cp RandomForest_Best.sav s3://loan-prediction-model-bucket/
+   ```
+
+### Step 2 : Create the Serverless Configuration
+
+The serverless.yml file defines the configuration of the Lambda function, its environment variables, and the resources (like the S3 bucket) needed for the deployment.
+```yaml
+service: loan-prediction-api
+
+provider:
+  name: aws
+  runtime: python3.8
+  region: us-east-1
+
+functions:
+  predict:
+    handler: lambda_function.lambda_handler
+    events:
+      - http:
+          path: predict
+          method: post
+          cors: true
+    environment:
+      MODEL_S3_BUCKET: loan-prediction-model-bucket #folder in S3 bucket
+      MODEL_S3_KEY: RandomForest_Best.sav  # Key in S3 bucket
+
+resources:
+  Resources:
+    ModelBucket:
+      Type: AWS::S3::Bucket
+      Properties:
+        BucketName: loan-prediction-model-bucket
+```
+`service`: Defines the name of the service (API).
+`provider`: Specifies that AWS Lambda will be used with Python 3.8 as the runtime in the us-east-1 region.
+`functions`: Defines the Lambda function and the HTTP event (API Gateway) to trigger it. The function will be triggered via a POST request to /predict.
+`environment`: Sets environment variables to store the S3 bucket name and key for the model file (RandomForest_Best.sav).
+`resources`: Specifies an S3 bucket resource (loan-prediction-model-bucket) for storing the model file.
+
+### Step 3 : Deploy Using Serverless Framework
+
+1. **Install Dependencies**
+
+   Install the necessary dependencies first:
+
+   ```bash
+   pip install -r requirements.txt
+   ```
+2. **Deploy**
+After installing the dependencies, use the following command to deploy the service:
+
+
+```bash
+serverless create --template aws-python3 --path my-service  
+```
+<p align="center">
+  <img src="images/Serverless_create.png">
+</p>
+
+
+```bash
+serverless deploy
+```
+<p align="center">
+  <img src="images/Serverless_deploy.png">
+</p>
+
+After deploying the API using the Serverless Framework, you will get an HTTP endpoint for the API (provided by API Gateway). You can use Postman to automate the request on the API same as before.
